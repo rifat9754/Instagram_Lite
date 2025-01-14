@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct Feedview: View {
+    @StateObject var viewModel = FeedViewModel()
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 32) {
-                    ForEach(0 ... 10, id: \.self){ post in
-                        FeedCell()
+                    ForEach(viewModel.posts){ post in
+                        FeedCell( post: post)
                     }
                 }
                 .padding(.top, 8)
@@ -25,6 +26,8 @@ struct Feedview: View {
                 ToolbarItem(placement: .navigationBarLeading){
                     Text("Instagram")
                         .fontWeight(.bold)
+                    //Image("instagram-black")
+                        //.resizable()
                         
                         
                 }

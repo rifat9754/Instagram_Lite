@@ -8,37 +8,60 @@
 import SwiftUI
 
 struct MainTabView: View {
+    let user: User
+    @State private var selectedIndex = 0
+    
     var body: some View {
-        TabView{
+        TabView(selection: $selectedIndex){
             Feedview()
+                .onAppear() {
+                    selectedIndex = 0
+                }
                 .tabItem {
                     Image( systemName: "house")
-                }
+                }.tag(0)
             
-            Text("Search")
+            SearchView()
+                .onAppear() {
+                    selectedIndex = 1
+                }
                 .tabItem {
                     Image( systemName: "magnifyingglass")
-                }
+                }.tag(1)
             
-            Text("Upload Post")
+            UploadPostView( tabIndex: $selectedIndex)
+                .onAppear() {
+                    selectedIndex = 2
+                }
                 .tabItem {
                     Image( systemName: "plus.square")
-                }
+                }.tag(2)
             
-            Text("Notification")
-                .tabItem {
-                    Image( systemName: "heart")
+            CurrentUserProfileView(user: user)
+                .onAppear() {
+                    selectedIndex = 3
                 }
-            
-            ProfileView()
                 .tabItem {
                     Image( systemName: "person")
+                }.tag(3)
+            
+            ShopView()
+                .onAppear {
+                    selectedIndex = 4
                 }
+                .tabItem {
+                    Image(systemName: "cart")
+                    Text("Shop")
+                }
+                .tag(4)
+
+            
+
         }
         .accentColor(.black)
     }
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(user: User.MOCK_USERS[0])
 }
